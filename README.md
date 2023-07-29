@@ -39,6 +39,18 @@ los tres lenguajes.
 # RESOLUCION
 
 * Algoritmos seleccionados:
-    - QuickSort
-    - Merge Sort
-    - <Añadir los otros algoritmos/>
+    - Binary Tree
+    - Bubble sort
+    - Quick sort
+    - Selection sort
+    - Merge sort
+
+# TAREAS
+## 2023-07-29 TODO
+    * Jesus: Informe en Latex
+    * Luis Borit: Matplotlib
+    * Abel: Juntar los algoritmos en un solo proyecto
+    * TODOS: Desarrollar cada uno por su lado los algoritmos con la finalidad de entenderlos y seleccionar los finales el dia martes
+    
+
+
