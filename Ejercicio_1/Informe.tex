@@ -5,14 +5,58 @@
 % \usepackage{graphicx}  % This package allows the importing of images
 \usepackage[T1]{fontenc}
 \usepackage{blindtext}
+\usepackage[]{algorithm2e}
 % \usepackage[T1]{fontenc}
-\title{Algoritmos de Ordenamiento}
+\title{Comparativa de Algoritmos de Ordenamiento}
 \date{2023\\ Julio}
-\author{Luis Borit Guitton, Abel Borit Guitton, Jesus Alpaca Rendon\\ Maestria en Ciencias de la Computacion, Universidad Nacional de San Agustin}     
+\author{Luis Borit Guitton - Abel Borit Guitton - Jesus Alpaca Rendon\\ Maestria en Ciencias de la Computacion, Universidad Nacional de San Agustin}     
 \begin{document}
 \maketitle
 \section{Introduccion}
+El presente informe muestra la comparativa de tiempos de ejecucion realizada entre 5 algoritmos de ordenamiento como son: Binary Insertion Sort, Bubble sort, Quick sort, Selection sort y Merge sort.
+Implementados en 3 diferentes lenguajes de programacion: Python, Golang y C++. Los algoritmos fueron sometidos a pruebas para obtener un tiempo promedio de ejecucion y ver los resultados
+en una grafica comparativa
 \section{Algoritmos}
+Los algoritmos seleccionados para el presente trabajo de investigacion son los siguientes:
+
+* Binary Tree
+
+* Bubble sort
+
+* Quick sort
+
+* Selection sort
+
+* Merge Sort
+
+\begin{enumerate}
+    \item Binary Insertion Sort
+    \item Bubble Sort
+    
+          Este algoritmo realiza el ordenamiento o reordenamiento de una lista a de n valores, en este caso de n términos numerados del 0 al n-1; consta de dos bucles anidados, uno con el índice i, que da un tamaño menor al recorrido de la burbuja en sentido inverso de 2 a n, y un segundo bucle con el índice j,
+          con un recorrido desde 0 hasta n-i, para cada iteración del primer bucle, que indica el lugar de la burbuja. La burbuja son dos términos de la lista seguidos, j y j+1, que se comparan: si el primero es mayor que el segundo sus valores se intercambian.
+
+          \begin{algorithm}[H]
+              \KwData{$a_{1}$,$a_{2}$,$a_{3}$,$a_{4}$...$a_{(n-1)}$}
+              \KwResult{ordered list}
+              initialization\;
+              \For{$i$ \KwTo n-1}{
+                  \For{$j$ \KwTo n-i-1}{
+                      \If{$a_{j}$ > $a_{j+1}$}{
+                          go to next section\;
+                          $aux\gets a_{j}$\;
+                          $a_{j}\gets a_{j+1}$\;
+                          $a_{j+1}\gets aux$\;                          
+                      }
+                  }
+              }              
+              \caption{Bubble Algorithm}
+          \end{algorithm}
+
+    \item Quick Sort
+    \item Selection Sort
+    \item Merge Sort
+\end{enumerate}
 \section{Implementacion}
 \section{Resultados}
 \section{Conclusiones}
