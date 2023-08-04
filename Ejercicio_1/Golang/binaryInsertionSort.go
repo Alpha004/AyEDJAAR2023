@@ -69,7 +69,7 @@ func main() {
 	elapsed := time.Since(start).Seconds()
 	log.Printf("TIME PROCESSING: %f", elapsed)
 	//CREATING SORTED LIST
-	fileTime, err := os.Create("BinaryInsertSortOrderedList.txt")
+	fileTime, err := os.Create("BinaryInsertionSortOrderedList.txt")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -80,7 +80,7 @@ func main() {
 			log.Fatal(err)
 		}
 	}
-	mainpath := "../Results/Golang/binaryInsertSortResults_"
+	mainpath := "../Results/Golang/binaryInsertionSortResults_"
 	//CREATING RESULTS
 	// Read Write Mode
 
