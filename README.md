@@ -60,7 +60,16 @@ los tres lenguajes.
     Ahora en Windows, ejecutar el .exe(se genera con el nombre a.exe por defecto) con el argumento de la ruta de la lista de numeros a ordenar con el algoritmo:
     ```./a.exe ../Data/50000_data.txt```
     Se generara 2 archivos de texto, uno con el resultado de la lista ordenada y otro en la carpeta Resultados/C++ con el tiempo de demora de la ejecucion
-    
+
+ * Estadisticas
+    Una vez obtenidos todos los datos, nos ubicamos en la carpeta Results y ejecutamos el script stadistics.py de la siguiente manera por ejemplo:
+    ```python stadistics.py '.\\C++' C++ selectionSort```
+    Los parametros a cambiar seran la ruta de los archivos con los tiempos que estan separados por lenguaje, el lenguaje a calcular y el algoritmo seleccionado.
+    Obtendremos un .csv como resultado con la desviacion estandar, el limite maximo y limite minimo.
+  * Graficas
+    Para las graficas, nos ubicamos en la misma carpeta y ejecutamos el siguiente comando por ejemplo:
+    ```python graphics.py quick 40000```
+    Genera el grafico comparativo por tama;o de datos y algoritmo en la carpeta Graficos
 # RESOLUCION
 
 * Algoritmos seleccionados:
