@@ -3,59 +3,80 @@
 #include <fstream>
 #include <vector>
 #include <string>
+#include <chrono>
+
+using namespace std::chrono;
 
 using namespace std;
 
-int main()
+int main(int argc, char *argv[])
 {
-    time_t start, end;
-    time(&start);
+    if (argc != 2)
+    {
+        printf("Ha olvidado la ruta del archivo.\n");
+        exit(1);
+    }
+    printf("Ruta %s", argv[1]);
+
+    vector<int> numbers;
+    auto startclock = high_resolution_clock::now();
     ios_base::sync_with_stdio(false);
 
-    vector<string> msg{"Hello", "C++", "World", "from", "VS Code", "and the C++ extension!"};
-
-    for (const string &word : msg)
-    {
-        cout << word << " ";
-    }
-    cout << endl;
-
-    ofstream myfileRead("example.txt");
-    if (myfileRead.is_open())
-    {
-        myfileRead << "This is a line.\n";
-        myfileRead << "This is another line.\n";
-        myfileRead.close();
-    }
-    else
-        cout << "Unable to open file";
-
     string line;
-    ifstream myfile("../Data/100_data.txt");
+    ifstream myfile(argv[1]);
     if (myfile.is_open())
     {
         while (getline(myfile, line))
         {
-            cout << line << '\n';
+            // cout << line << '\n';
+            numbers.push_back(stoi(line));
         }
         myfile.close();
     }
-
     else
         cout << "Unable to open file";
 
-    for (int i=0; i<1000; i++)
-    {
-        cout << i;
-    }
+    int sizeNumbers = numbers.size();
+    int arrayNumbers[sizeNumbers];
+
+    copy(numbers.begin(), numbers.end(), arrayNumbers);
+    //ORDENAMIENTO DEL ALGORITMO...
     
-    time(&end);
- 
+    ofstream myfileRead("selectionSortOrderedList.txt");
+    if (myfileRead.is_open())
+    {
+        for (int i = 0; i < sizeNumbers; i++)
+        {
+            myfileRead << to_string(arrayNumbers[i]) + "\n";
+            cout << arrayNumbers[i] << " ";
+        }
+        myfileRead.close();
+    }
+    else
+        cout << "Unable to open file";
     // Calculating total time taken by the program.
-    double time_taken = double(end - start);
-    cout << "Time taken by program is : " << fixed
-        << time_taken << setprecision(5);
-    cout << " sec " << endl;
+    auto stop = high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(stop - startclock);
+    printf("\nTime measured: %.9f seconds.\n", duration.count() * 1e-9);
+
+    fstream resultFile;
+    resultFile.open("../Results/C++/selectionSortResults_" + to_string(sizeNumbers) + ".txt", ios::out | ios::app);
+    if (!resultFile)
+    {
+        ofstream fileReadTime("../Results/C++/selectionSortResults_" + to_string(sizeNumbers) + ".txt");
+        if (fileReadTime.is_open())
+        {
+            fileReadTime << to_string(duration.count() * 1e-9) + "\n";
+            fileReadTime.close();
+        }
+        else
+            cout << "Unable to open file";
+    }
+    else
+    {
+        cout << "Writing\n";
+        resultFile << to_string(duration.count() * 1e-9) + "\n";
+    }
 
     return 0;
 }

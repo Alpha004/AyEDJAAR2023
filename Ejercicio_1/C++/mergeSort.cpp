@@ -1,5 +1,13 @@
 // C++ program for Merge Sort
+// added by Manish Sharma
 #include <bits/stdc++.h>
+#include <iostream>
+#include <fstream>
+#include <vector>
+#include <string>
+#include <chrono>
+
+using namespace std::chrono;
 using namespace std;
 
 // Merges two subarrays of array[].
@@ -75,29 +83,78 @@ void mergeSort(int array[], int const begin, int const end)
 	merge(array, begin, mid, end);
 }
 
-// UTILITY FUNCTIONS
-// Function to print an array
-void printArray(int A[], int size)
-{
-	for (int i = 0; i < size; i++)
-		cout << A[i] << " ";
-	cout << endl;
-}
-
 // Driver code
-int main()
+int main(int argc, char *argv[])
 {
-	int arr[] = { 12, 11, 13, 5, 6, 7 };
-	int arr_size = sizeof(arr) / sizeof(arr[0]);
+    if (argc != 2)
+    {
+        printf("Ha olvidado la ruta del archivo.\n");
+        exit(1);
+    }
+    printf("Ruta %s", argv[1]);
 
-	cout << "Given array is \n";
-	printArray(arr, arr_size);
+    vector<int> numbers;
+    auto startclock = high_resolution_clock::now();
+    ios_base::sync_with_stdio(false);
 
-	mergeSort(arr, 0, arr_size - 1);
+    string line;
+    ifstream myfile(argv[1]);
+    if (myfile.is_open())
+    {
+        while (getline(myfile, line))
+        {
+            // cout << line << '\n';
+            numbers.push_back(stoi(line));
+        }
+        myfile.close();
+    }
+    else
+        cout << "Unable to open file";
 
-	cout << "\nSorted array is \n";
-	printArray(arr, arr_size);
-	return 0;
+    int sizeNumbers = numbers.size();
+    int arrayNumbers[sizeNumbers];
+
+    copy(numbers.begin(), numbers.end(), arrayNumbers);
+
+	mergeSort(arrayNumbers, 0, sizeNumbers - 1);
+
+	cout << "Sorted array!";
+	ofstream myfileRead("mergeSortOrderedList.txt");
+    if (myfileRead.is_open())
+    {
+        for (int i = 0; i < sizeNumbers; i++)
+        {
+            myfileRead << to_string(arrayNumbers[i]) + "\n";            
+        }
+        myfileRead.close();
+    }
+    else
+        cout << "Unable to open file";
+    // Calculating total time taken by the program.
+    auto stop = high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(stop - startclock);
+    printf("\nTime measured: %.9f seconds.\n", duration.count() * 1e-9);
+
+    fstream resultFile;
+    resultFile.open("../Results/C++/mergeSortResults_" + to_string(sizeNumbers) + ".txt", ios::out | ios::app);
+    if (!resultFile)
+    {
+        ofstream fileReadTime("../Results/C++/mergeSortResults_" + to_string(sizeNumbers) + ".txt");
+        if (fileReadTime.is_open())
+        {
+            fileReadTime << to_string(duration.count() * 1e-9) + "\n";
+            fileReadTime.close();
+        }
+        else
+            cout << "Unable to open file";
+    }
+    else
+    {
+        cout << "Writing\n";
+        resultFile << to_string(duration.count() * 1e-9) + "\n";
+    }
+
+    return 0;
 }
 
 // This code is contributed by Mayank Tyagi

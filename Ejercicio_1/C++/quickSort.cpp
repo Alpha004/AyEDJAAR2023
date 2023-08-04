@@ -1,83 +1,136 @@
 // added by Manish Sharma
-
+#include <bits/stdc++.h>
 #include <iostream>
+#include <fstream>
+#include <vector>
+#include <string>
+#include <chrono>
+
+using namespace std::chrono;
 using namespace std;
 
-int partition(int* arr, int start, int end)
+int partition(int arr[], int start, int end)
 {
-	// assuming last element as pivotElement
-	int index = 0, pivotElement = arr[end], pivotIndex;
-	int* temp = new int[end - start + 1]; // making an array whose size is equal to current partition range...
-	for (int i = start; i <= end; i++) // pushing all the elements in temp which are smaller than pivotElement
-	{
-		if(arr[i] < pivotElement)
-		{
-			temp[index] = arr[i];
-			index++;
-		}
-	}
-
-	temp[index] = pivotElement; // pushing pivotElement in temp
-	index++;
-
-	for (int i = start; i < end; i++) // pushing all the elements in temp which are greater than pivotElement
-	{
-		if(arr[i] > pivotElement)
-		{
-			temp[index] = arr[i];
-			index++;
-		}
-	}
-// all the elements now in temp array are order :
-// leftmost elements are lesser than pivotElement and rightmost elements are greater than pivotElement
-			
-	
-	
-	index = 0;
-	for (int i = start; i <= end; i++) // copying all the elements to original array i.e arr
-	{
-		if(arr[i] == pivotElement)
-		{
-			// for getting pivot index in the original array.
-			// we need the pivotIndex value in the original and not in the temp array
-			pivotIndex = i;
-		}
-		arr[i] = temp[index];
-		index++;
-	}
-	return pivotIndex; // returning pivotIndex
+ 
+    int pivot = arr[start];
+ 
+    int count = 0;
+    for (int i = start + 1; i <= end; i++) {
+        if (arr[i] <= pivot)
+            count++;
+    }
+ 
+    // Giving pivot element its correct position
+    int pivotIndex = start + count;
+    swap(arr[pivotIndex], arr[start]);
+ 
+    // Sorting left and right parts of the pivot element
+    int i = start, j = end;
+ 
+    while (i < pivotIndex && j > pivotIndex) {
+ 
+        while (arr[i] <= pivot) {
+            i++;
+        }
+ 
+        while (arr[j] > pivot) {
+            j--;
+        }
+ 
+        if (i < pivotIndex && j > pivotIndex) {
+            swap(arr[i++], arr[j--]);
+        }
+    }
+ 
+    return pivotIndex;
+}
+ 
+void quickSort(int arr[], int start, int end)
+{
+ 
+    // base case
+    if (start >= end)
+        return;
+ 
+    // partitioning the array
+    int p = partition(arr, start, end);
+ 
+    // Sorting the left part
+    quickSort(arr, start, p - 1);
+ 
+    // Sorting the right part
+    quickSort(arr, p + 1, end);
 }
 
-void quickSort(int* arr, int start, int end)
+int main(int argc, char *argv[])
 {
-	if(start < end)
-	{
-		int partitionIndex = partition(arr, start, end); // for getting partition
-		quickSort(arr, start, partitionIndex - 1); // sorting left side array
-		quickSort(arr, partitionIndex + 1, end); // sorting right side array
-	}
-	return;
-}
+    if (argc != 2)
+    {
+        printf("Ha olvidado la ruta del archivo.\n");
+        exit(1);
+    }
+    printf("Ruta %s", argv[1]);
 
-int main()
-{
-	int size = 9;
-	int arr[size] = {5, 12, 7, 1, 13, 2 ,23, 11, 18};
+    vector<int> numbers;
+    auto startclock = high_resolution_clock::now();
+    ios_base::sync_with_stdio(false);
+
+    string line;
+    ifstream myfile(argv[1]);
+    if (myfile.is_open())
+    {
+        while (getline(myfile, line))
+        {
+            // cout << line << '\n';
+            numbers.push_back(stoi(line));
+        }
+        myfile.close();
+    }
+    else
+        cout << "Unable to open file";
+
+    int sizeNumbers = numbers.size();
+    int arrayNumbers[sizeNumbers];
+
+    copy(numbers.begin(), numbers.end(), arrayNumbers);
 	
-	cout << "Unsorted array : ";
-	for (int i = 0; i < size; i++)
-	{
-		cout << arr[i] << " ";
-	}
-	printf("\n");
-
-	quickSort(arr, 0, size - 1);
+	quickSort(arrayNumbers, 0, sizeNumbers - 1);
 	
-	cout << "Sorted array : ";
-	for (int i = 0; i < size; i++)
-	{
-	cout << arr[i] << " ";
-	}
+	cout << "Sorted array!";
+	ofstream myfileRead("quickSortOrderedList.txt");
+    if (myfileRead.is_open())
+    {
+        for (int i = 0; i < sizeNumbers; i++)
+        {
+            myfileRead << to_string(arrayNumbers[i]) + "\n";            
+        }
+        myfileRead.close();
+    }
+    else
+        cout << "Unable to open file";
+    // Calculating total time taken by the program.
+    auto stop = high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(stop - startclock);
+    printf("\nTime measured: %.9f seconds.\n", duration.count() * 1e-9);
 
-	return 0;
+    fstream resultFile;
+    resultFile.open("../Results/C++/quickSortResults_" + to_string(sizeNumbers) + ".txt", ios::out | ios::app);
+    if (!resultFile)
+    {
+        ofstream fileReadTime("../Results/C++/quickSortResults_" + to_string(sizeNumbers) + ".txt");
+        if (fileReadTime.is_open())
+        {
+            fileReadTime << to_string(duration.count() * 1e-9) + "\n";
+            fileReadTime.close();
+        }
+        else
+            cout << "Unable to open file";
+    }
+    else
+    {
+        cout << "Writing\n";
+        resultFile << to_string(duration.count() * 1e-9) + "\n";
+    }
+
+    return 0;
 }

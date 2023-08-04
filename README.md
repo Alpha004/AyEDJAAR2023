@@ -3,8 +3,6 @@ Repositorio del grupo 4 de AyED - Maestria en Ciencias de la Computacion UNSA
 
 #Integrantes
 
-- Luis Borit Guitton	901005552	lborit@unsa.edu.pe
-- Abel Borit Guitton	921774056	aborit@unsa.edu.pe
 - Jesus Alpaca Rendon	929624991	jalpacare@unsa.edu.pe
 
 ## Proyectos
@@ -35,7 +33,34 @@ los tres lenguajes.
         - Tabla comparativa con el promedio de tiempo de procesamiento y desviacion estandar.
         - Graficos.
     • Conclusiones.
+# EJECUCION DEL PROYECTO
 
+## REQUERIMIENTOS
+ * Golang(https://go.dev/doc/install)
+ * Python(https://www.python.org/downloads/)
+ * C++:
+    - MSYS2(https://github.com/msys2/msys2-installer/releases/download/2023-05-26/msys2-x86_64-20230526.exe)
+    - Extension C/C++ Visual Studio Code(https://code.visualstudio.com/docs/cpp/config-mingw)
+## PASOS
+ * Golang:
+    En la ruta de los archivos goland ejecutar el siguiente comando para construir el ejecutable:
+    ```go build <archivo.go>```
+    Ahora en Windows, ejecutar el .exe con el argumento de la ruta de la lista de numeros a ordenar con el algoritmo:
+    ```./mergeSort.exe ../Data/50000_data.txt```
+    Se generara 2 archivos de texto, uno con el resultado de la lista ordenada y otro en la carpeta Resultados/Golang con el tiempo de demora de la ejecucion
+
+ * Python:
+    En la ruta de los archivos python ejecutar el siguiente comando para ejecutar el .py,de igual manera con la ruta de la lista de numeros como argumento:
+    ```python <archivo.py> ../Data/50000_data.txt```    
+    Se generara 2 archivos de texto, uno con el resultado de la lista ordenada y otro en la carpeta Resultados/Python con el tiempo de demora de la ejecucion
+
+ * C++:
+    En la ruta de los archivos C++ ejecutar el siguiente comando para construir el ejecutable:
+    ```g++ <archivo.cpp>```
+    Ahora en Windows, ejecutar el .exe(se genera con el nombre a.exe por defecto) con el argumento de la ruta de la lista de numeros a ordenar con el algoritmo:
+    ```./a.exe ../Data/50000_data.txt```
+    Se generara 2 archivos de texto, uno con el resultado de la lista ordenada y otro en la carpeta Resultados/C++ con el tiempo de demora de la ejecucion
+    
 # RESOLUCION
 
 * Algoritmos seleccionados:
@@ -51,6 +76,13 @@ los tres lenguajes.
     * Luis Borit: Matplotlib
     * Abel: Juntar los algoritmos en un solo proyecto
     * TODOS: Desarrollar cada uno por su lado los algoritmos con la finalidad de entenderlos y seleccionar los finales el dia martes
+
+## 2023-08-03 UPDATE
+
+Por temas personales, no pude completar mi parte y para no perjdicar a mis compañeros en la presentacion de su trabajo, decidi realizarlo por mi cuenta.
+Se llego a consenso con ellos de que se entregaria el dia jueves pero lamentablemente no llegue a la fecha, por lo que ellos presentaran aparte su informe.
+Actualmente a la fecha, se sube los resultados de los tiempos de ejecucion en los 3 lenguajes para los diferentes tamaños de datos, ejecutados en una misma computadora
+
     
 
 
