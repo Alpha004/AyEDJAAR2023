@@ -92,6 +92,8 @@ Por temas personales, no pude completar mi parte y para no perjdicar a mis compa
 Se llego a consenso con ellos de que se entregaria el dia jueves pero lamentablemente no llegue a la fecha, por lo que ellos presentaran aparte su informe.
 Actualmente a la fecha, se sube los resultados de los tiempos de ejecucion en los 3 lenguajes para los diferentes tamaños de datos, ejecutados en una misma computadora
 
-    
+## 2023-08-04 PREVIEW
+
+Se subio el informe en su version PDF, el archivo latex ya se tenia previamente en el repositorio por el tema del versionamiento, por lo que fue actualizado al igual que las tablas comparativas que se añadieron en el informe final.
 
 
