@@ -1,9 +1,10 @@
-# MaestriaAyEDGrupo04
-Repositorio del grupo 4 de AyED - Maestria en Ciencias de la Computacion UNSA
+# AyEDJAAR2023
+
+Repositorio de AyED - Maestria en Ciencias de la Computacion UNSA
 
 #Integrantes
 
-- Jesus Alpaca Rendon	929624991	jalpacare@unsa.edu.pe
+- Jesus Alpaca Rendon jalpacare@unsa.edu.pe
 
 ## Proyectos
 # EJERCICIO #1
@@ -73,7 +74,7 @@ los tres lenguajes.
 # RESOLUCION
 
 * Algoritmos seleccionados:
-    - Binary Tree
+    - Binary Insertion Sort
     - Bubble sort
     - Quick sort
     - Selection sort
@@ -95,5 +96,9 @@ Actualmente a la fecha, se sube los resultados de los tiempos de ejecucion en lo
 ## 2023-08-04 PREVIEW
 
 Se subio el informe en su version PDF, el archivo latex ya se tenia previamente en el repositorio por el tema del versionamiento, por lo que fue actualizado al igual que las tablas comparativas que se añadieron en el informe final.
+
+## 2023-08-04 FINAL
+
+Informe completo
 
 
