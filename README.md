@@ -101,4 +101,23 @@ Se subio el informe en su version PDF, el archivo latex ya se tenia previamente 
 
 Informe completo
 
+# EJERCICIO 2
 
+5. Problema del Agente Viajero
+El objetivo es encontrar una forma de hacer su viaje m´as eficiente (en t´erminos de la distancia
+total recorrida o del costo total).
+El problema se puede modelar mediante un grafo etiquetado (las aristas tienen distancias o costos
+asociados a ellas), en el cual buscamos el ciclo hamiltoneano m´as eficiente. En la Figura 1,
+se muestra esta representaci´on.
+Para un grafo de n vertices, tenemos (n − 1)! posibles ciclos hamiltonianos.
+
+![Alt text](Ejercicio_2/grafo_tsp.png)
+
+Entonces usted, debe implementar una soluci´on al problema del agente viajero. Puede utilizar
+eur´ısticas, estas tienen un costo aceptable; sin embargo, no llegan a la soluci´on ´optima. Algunas eur´ısticas
+que puede utilizar son:
+Algoritmos gen´eticos.
+Busqueda de cuervos.
+Busquedas locales.
+Enjambre de partıculas.
+...
