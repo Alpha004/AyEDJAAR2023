@@ -1,4 +1,5 @@
-\documentclass{article}
+\documentclass[12pt]{article}
+
 \usepackage[T1]{fontenc}
 \usepackage{blindtext}
 \usepackage[]{algorithm2e}
@@ -7,8 +8,14 @@
 \usepackage{amsfonts, amssymb, amsmath}
 \usepackage[utf8]{inputenc}
 \usepackage{xcolor}
+\usepackage{booktabs} % For better table lines
+\usepackage{appendix} % For appendices
 
-\title{Comparativa de una Heurística con fuerza bruta para la solucion del problema TSP}
+\parindent 0px
+
+\graphicspath{ {../Results} }
+
+\title{Comparativa de una Heurística con Fuerza Bruta para la solucion del problema TSP}
 \author{Jesus Antonio Alpaca Rendon}
 \date{\today}
 
@@ -62,7 +69,7 @@ como en el de la formula que la sumatoria seria correcta, sin embargo si queremo
 $$\tau_{i,j}^k=\textcolor{red}{(1-\rho)\tau_{i,j}}+\sum_{k=1}^{m} \Delta\tau_{i,j}^k$$
 
 Como podemos ver \textit{$\rho$} es una constante que hara el calculo de la vaporizacion,
- su maximo nivel es 1 y su minimo nivel es 0 en caso no se quiera considerar. Como se menciono
+su maximo nivel es 1 y su minimo nivel es 0 en caso no se quiera considerar. Como se menciono
 es un valor opcional si se quiere emular correctamente el algoritmo lo mas parecido a una situacion real.
 
 
@@ -98,13 +105,13 @@ $$P_{i,j}=\frac{(\tau_{i,j})(\eta_{i,j})}{\sum((\tau_{i,j})(\eta_{i,j}))}$$
 
 Donde:\\
 
-    \hspace{1cm}$P_{i,j}$ es la probabilidad de escoger ese camino
+\hspace{1cm}$P_{i,j}$ es la probabilidad de escoger ese camino
 
-    \hspace{1cm}$\tau_{i,j}$ el valor de la feromona de esa arista
+\hspace{1cm}$\tau_{i,j}$ el valor de la feromona de esa arista
 
-    \hspace{1cm}$\eta_{i,j}$ el valor de: $\frac{1}{L_{i,j}}$ que es 1 sobre el costo real de la arista
+\hspace{1cm}$\eta_{i,j}$ el valor de: $\frac{1}{L_{i,j}}$ que es 1 sobre el costo real de la arista
 
-    \vspace{5mm}
+\vspace{5mm}
 
 Aquí nos daremos cuenta que es donde toma bastante importancia la feromona, ya que si la feromona es alta en un camino de costo alto, puede influir en tomar
 desiciones distintas a las esperadas, son situaciones donde no sucedan a menudo debido a que siempre habra mayores probabilidades en caminos de costo bajo
@@ -119,14 +126,14 @@ Imaginemos que seguimos con nuestro grafo completo de 4 vertices, la probabilida
 la arista 3 del 5\%.
 
 La suma cumulativa quedaria de esta forma:
+\vspace{15mm}
+$$\textit{r} = Random$$
 
-    $$\textit{r} = Random$$
+$$Intervalo 1 = {0.24 < \textit{r} \leq 1 }$$
 
-    $$Intervalo 1 = {0.24 < \textit{r} \leq 1 }$$
+$$Intervalo 2 = {0.05 < \textit{r} \leq 0.24 }$$
 
-    $$Intervalo 2 = {0.05 < \textit{r} \leq 0.24 }$$
-
-    $$Intervalo 3 = {0.00 \leq \textit{r} \leq 0.05 }$$
+$$Intervalo 3 = {0.00 \leq \textit{r} \leq 0.05 }$$
 
 De esta manera, dependiendo el numero random que obtengamos, si cae en el intervalo 1, ira a la arista 1, y asi con los demas posibles resultados.
 
@@ -135,26 +142,112 @@ De esta forma obtenemos el camino Hamiltoniano mas optimo segun esta heuristica.
 \section{Implementación}
 La implementacion de la heuristica y el algoritmo de fuerza bruta, fueron realizadas en C++ y los datos de testeo y otros
 se encuentran en el siguiente link de Github:
- 
+
 - https://github.com/Alpha004/AyEDJAAR2023
 
 \section{Resultados}
-<Resultados>
+
+Para tener la informacion clara, a continuacion se muestra las caracteristicas de la PC utilizada para la implementacion.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{caracteristicas}
+\caption{Caracteristicas del equipo PC utilizado}
+\end{figure}
+
+En este caso contaba con 16 gbs de ram lo cual permitio realizar pruebas a numeros mayores de vertices que se consideraron al inicio.
+Se realizo pruebas con grafos completos de tamaños entre 4 - 14 vertices, puesto que al ejecutar la implementacion de Brute Force 
+en un tamaño de 15, el programa tomaba mas de 2 horas sin dar resultado. Se estima que hubiera demorado entre 3 hoars y media y 4 horas
+por cada iteracion.
+
+Se ejecutaron 5 ejecuciones con el mismo tamaño de vertices para obtener un promedio de resultados aceptable.
+
+A continuacion se muestra la grafica de resultados de la comparativa entre ACO y Brute Force para grafos completos.
+Como podemos observar en la siguiente grafica de los resultados, la meta-heuristica ACO mantuvo un margen de tiempo similar en
+diferentes cantidades de vertices para hallar la solucion mas optima, llegando incluso a grafos de 100 resultados con un tiempo aceptable. Sin embargo
+no fueron considerados en la grafica de resultados actual debido a que Brute Force tomaba mucho tiempo a partir de los 15 vertices.
+
+Un punto importante es que se considero utilizar 10 hormigas y 10 iteraciones para el algoritmo ACO, ya que con numeros menores, en este caso para los tamaños de 
+vertices que se utilizaron, no habia mucho problema , pero numeros mayores como mas de 100 vertices, se recomienda utilizar un numero similar de hormigas para obtener
+resultados mas precisos, por eso se decidio realizar 10 iteraciones siempre con 10 hormigas, ya que a partir de 3 o 4 hormigas siempre daba el mismo resultado
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{heuristica_results}
+\caption{Grafica de Resultados}
+\end{figure}
 
 \section{Conclusiones}
-<Conclusiones>
+Como conclusiones se puede indicar lo siguiente:
 
-\section{Referencias Bibliográficas}
+\begin{itemize}
+    \item La meta-heuristica ACO logra definir la ruta mas optima en menos tiempo que Brute Force, logrando un punto de inflexion notorio
+        desde que se brinda un grafo completo de grado 12, donde la grafica se desvia de una forma abrupta por el lado de Brute Force que tiene una complejidad de n! lo cual es bastante
+    \item Las heuristicas brindan formas de resolver problemas de forma mas optima que las convencionales, siendo su importancia demostrada en la presente investigacion
+\end{itemize}
+
 \begin{thebibliography}{9}
-\bibitem{libro1}
-Blum, Christian. \textit{Ant colony optimization: Introduction and recent trends}. ELSEVIER, 2005.
+    \bibitem{libro1}
+    Blum, Christian. \textit{Ant colony optimization: Introduction and recent trends}. ELSEVIER, 2005.
 
-\bibitem{sitioweb1}
-Introduction to Ant Colony Optimization. URL: \texttt{https://www.javatpoint.com/introduction-to-ant-colony-optimization}
+    \bibitem{sitioweb1}
+    Introduction to Ant Colony Optimization. URL: \texttt{https://www.javatpoint.com/introduction-to-ant-colony-optimization}
+    
+    \bibitem{sitioweb2}
+    Professor Seyedali Mirjalili (Ali) - Ant Colony Optimization. URL: \texttt{https://seyedalimirjalili.com/aco}
 
 \end{thebibliography}
 
-\section{Anexos}
-<Anexos>
+% Appendices start here
+\begin{appendices}
 
+\section{Additional Information}
+ANEXOS
+
+\subsection{Datos de los Resultados}
+A continuacion se anexan las tablas de los resultados obtenidos por las pruebas
+
+\begin{table}[!ht]
+    \centering
+    \caption{Brute Force - Datos recopilados en segundos}
+    \begin{tabular}{|l|l|l|l|l|l|l|}
+    \hline
+        DATA SIZE/ ITERATION & 1 & 2 & 3 & 4 & 5 & PROMEDIO \\ \hline
+        4 & 0.001 & 0 & 0.002 & 0.001 & 0.001 & 0.001 \\ \hline
+        5 & 0.001 & 0 & 0.001 & 0.001 & 0 & 0.0006 \\ \hline
+        6 & 0 & 0.001 & 0.001 & 0 & 0.001 & 0.0006 \\ \hline
+        7 & 0.001 & 0.001 & 0 & 0 & 0.001 & 0.0006 \\ \hline
+        8 & 0.001 & 0.001 & 0.001 & 0.002 & 0.001 & 0.0012 \\ \hline
+        9 & 0.006 & 0.005 & 0.006 & 0.006 & 0.006 & 0.0058 \\ \hline
+        10 & 0.049 & 0.069 & 0.047 & 0.047 & 0.045 & 0.0514 \\ \hline
+        11 & 0.477 & 0.51 & 0.478 & 0.477 & 0.477 & 0.4838 \\ \hline
+        12 & 5.525 & 5.511 & 5.603 & 5.527 & 5.524 & 5.538 \\ \hline
+        13 & 71.518 & 67.904 & 67.902 & 68.891 & 70.281 & 69.2992 \\ \hline
+        14 & 916.421 & 914.371 & 956.838 & 891.3569 & 882.214 & 912.24018 \\ \hline
+    \end{tabular}
+\end{table}
+
+
+\begin{table}[!ht]
+    \centering
+    \caption{Ant Colony Optimization - Datos recopilados en segundos}
+    \begin{tabular}{|l|l|l|l|l|l|l|}
+    \hline
+        DATA SIZE/ ITERATION & 1 & 2 & 3 & 4 & 5 & PROMEDIO \\ \hline
+        4 & 0 & 0.001 & 0 & 0.001 & 0.001 & 0.0006 \\ \hline
+        5 & 0.001 & 0.001 & 0 & 0.001 & 0 & 0.0006 \\ \hline
+        6 & 0.001 & 0.001 & 0.001 & 0.001 & 0.001 & 0.001 \\ \hline
+        7 & 0.001 & 0.002 & 0.001 & 0.002 & 0.002 & 0.0016 \\ \hline
+        8 & 0.003 & 0.003 & 0.003 & 0.002 & 0.002 & 0.0026 \\ \hline
+        9 & 0.004 & 0.003 & 0.004 & 0.004 & 0.004 & 0.0038 \\ \hline
+        10 & 0.005 & 0.005 & 0.005 & 0.005 & 0.005 & 0.005 \\ \hline
+        11 & 0.007 & 0.006 & 0.007 & 0.007 & 0.007 & 0.0068 \\ \hline
+        12 & 0.008 & 0.009 & 0.009 & 0.009 & 0.009 & 0.0088 \\ \hline
+        13 & 0.011 & 0.012 & 0.011 & 0.011 & 0.011 & 0.0112 \\ \hline
+        14 & 0.014 & 0.014 & 0.013 & 0.014 & 0.014 & 0.0138 \\ \hline
+    \end{tabular}
+\end{table}
+
+\end{appendices}
 \end{document}

@@ -114,40 +114,10 @@ int main(int argc, char *argv[]) {
 		ANTS -> connectCITIES (pair.first, pair.second);
 	}
 
-	// ANTS -> connectCITIES (0, 1);
-	// ANTS -> connectCITIES (0, 2);
-	// ANTS -> connectCITIES (0, 3);
-	// ANTS -> connectCITIES (0, 7);
-	// ANTS -> connectCITIES (1, 3);
-	// ANTS -> connectCITIES (1, 5);
-	// ANTS -> connectCITIES (1, 7);
-	// ANTS -> connectCITIES (2, 4);
-	// ANTS -> connectCITIES (2, 5);
-	// ANTS -> connectCITIES (2, 6);
-	// ANTS -> connectCITIES (4, 3);
-	// ANTS -> connectCITIES (4, 5);
-	// ANTS -> connectCITIES (4, 7);
-	// ANTS -> connectCITIES (6, 7);
-	/* ANTS -> connectCITIES(8, 2);
-	ANTS -> connectCITIES(8, 6);
-	ANTS -> connectCITIES(8, 7); */
-
-	// for(int i = 0; i < n_vertices_; ++i)
-
 	for(auto o:tours) {
 		std::cout << "N: " << o.n << ", X: " << o.x << ", Y: " << o.y << std::endl;
 		ANTS -> setCITYPOSITION (o.n, o.x, o.y);
-	}
-	// ANTS -> setCITYPOSITION (0,  1,  1);
-	// ANTS -> setCITYPOSITION (1, 10, 10);
-	// ANTS -> setCITYPOSITION (2, 20, 10);
-	// ANTS -> setCITYPOSITION (3, 10, 30);
-	// ANTS -> setCITYPOSITION (4, 15,  5);
-	// ANTS -> setCITYPOSITION (5, 10,  1);
-	// ANTS -> setCITYPOSITION (6, 20, 20);
-	// ANTS -> setCITYPOSITION (7, 20, 30);
-
-	// ANTS -> setCITYPOSITION(8, 26, 20);
+	}	
 
 	ANTS -> printGRAPH ();
 
