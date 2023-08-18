@@ -121,3 +121,33 @@ Busqueda de cuervos.
 Busquedas locales.
 Enjambre de partıculas.
 ...
+
+## PASOS
+
+Para el ejercicio 2 los pasos de resolucion son los siguientes:
+En la ruta de los archivos C++ ejecutar el siguiente comando para construir el ejecutable:
+BRUTE FORCE:
+```g++ <archivo.cpp>```
+ACO: 
+```g++ -Wall *.cpp -o aco;```
+
+Ahora en Windows, ejecutar el .exe(se genera con el nombre a.exe por defecto) con el argumento de la ruta de la lista de adyacencia y las posiciones en el plano de 2 dimensiones de los vertices:
+
+ACO
+```.\aco.exe ..\..\Data\ADJACENCY_LIST_13.txt ..\..\Data\DATA_13.txt 13```
+
+BRUTE FORCE
+```.\a.exe ..\..\Data\ADJACENCY_LIST_6.txt ..\..\Data\DATA_6.txt 6```
+
+Con esto obtendremos los resultados en la consola sobre el tiempo que demora
+Para el caso de los scripts en Python, se tiene un script para generar las aristas, otros para la lista de adjyacencias y otro para el grafico de resultados finales
+
+Para el presente proyecto solo fue necesario utilizar el de adyacencia y el grafico, para la adyacencia usamos:
+
+```python .\adjacency_generator.py```
+
+Nos pedira que ingresemos cuantos vertices queremos usar, esto generara la lista de adyacencias para un grafo completo
+
+Para el de grafico:
+
+```python .\generate_graphic.py```
