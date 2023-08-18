@@ -1,10 +1,10 @@
 # AyEDJAAR2023
 
-Repositorio de AyED - Maestria en Ciencias de la Computacion UNSA
+Repositorio de AyED 
 
 #Integrantes
 
-- Jesus Alpaca Rendon jalpacare@unsa.edu.pe
+- Jesus Alpaca Rendon
 
 ## Proyectos
 # EJERCICIO #1
