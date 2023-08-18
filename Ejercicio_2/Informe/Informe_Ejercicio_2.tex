@@ -1,0 +1,160 @@
+\documentclass{article}
+\usepackage[T1]{fontenc}
+\usepackage{blindtext}
+\usepackage[]{algorithm2e}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{amsfonts, amssymb, amsmath}
+\usepackage[utf8]{inputenc}
+\usepackage{xcolor}
+
+\title{Comparativa de una Heurística con fuerza bruta para la solucion del problema TSP}
+\author{Jesus Antonio Alpaca Rendon}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{Introducción}
+El presente trabajo es una comparativa para la resolucion del problema
+TSP (Traveling Salesman Problem) utilizando fuerza bruta contra una heuristica la cual
+en teoria brinda resultados de manera mas optima.
+El problema TSP es una problematica computacional la cual consta de hallar la mejor ruta que debe aplicar un viajero para visitar \textit{n} cantidad de ciudades solo una vez,
+es decir, hallar el mejor camino Hamiltoniano. Para este informe se aplico un algoritmo de fuerza bruta, el cual consta de medir todos los pesos posibles del grafo, obteniendo el de menor costo.
+Esto tiene una complejidad de \textit{n!} ya que a mas vertices, mayor cantidad de rutas por analizar.
+Para el presente informe se utilizo graficos completos,es decir, todos sus nodos tienen el mismo grado y todos son conexos.
+La heuristica que se decidio aplicar para el presente informe es la de ACO(Ant Colony Optimization), el cual es una heuristica
+inspirada en el comportamiento de las hormigas que estan en colonia, enfocandonos en las rutas que toman para obtener comida y como van seleccionando la mejor ruta
+considerando otros factores como las feromonas que dejan en el camino, tiempo de vaporizacion, etc.
+
+\section{Heurística}
+En esta sección, explora la heurística que estás utilizando y su relevancia para resolver el problema planteado.
+La heuristica seleccionada para el presente trabajo es ACO(Ant Colony Optimization), esta heuristica como se menciono en la introduccion se inspira en el comportamiento
+de las hormigas de colonia. Como se sabe, las hormigas salen de la colonia para buscar comida y traerla de vuelta, las hormigas para no perderse, dejan un rastro de feromonas
+que les sirve de guia para poder regresar a la colonia. Sin embargo en un inicio no conocen el camino y es muy probable que tomen la ruta mas larga sin saberlo.
+Con el tiempo las hormigas van generando diversos caminos dodne la feromona juega un papel muy importante en la desicion que deben tomar las hormigas,
+ya que es un factor que podria definir mucho en la eleccion.Para la eleccion se tiene en cuenta las rutas que cumplen 2 requisitos:
+\begin{itemize}
+    \item Ruta mas corta.
+    \item Ruta con mas cantidad de feromonas.
+\end{itemize}
+Conociendo este comportamiento, es como la heuristica de ACO nace e intenta emular este comportamiento, considerando esos 2 requisitos, siendo representados en un modelo matematico.
+
+Para empezar debemos considerar no solo la matriz de adyancencia del grafo, sino tambien otra matriz que sera la matriz de feromonas, esta matriz sera una replica del grafo en cuanto
+a vertices y caminos, sin embargo, los pesos seran distintos, ya que tendra un peso basado en la cantidad de feromonas que se depositen en el camino, por ejemplo hay especies de hormigas
+que depositan mayor cantidad de feromonas cuando encuentran una fuente grande de comida. En este caso se dejara mayor cantidad de feromonas si encontramos un camino mas optimo y para ello
+se utilizara el siguiente modelo matematico.
+
+Calculo de la feromona: $$\Delta\tau_{i,j}^k={  \frac{1}{L_k}}$$
+
+\textit{Delta Tau} representa la feromona que se colocara en la arista entre \textit{i,j}, siendo \textit{k} la cantidad de veces que pase la hormiga sobre esa ruta, siendo su valor 1/$L_k$
+
+En caso la hormiga no vaya por ese camino, la feromona sera 0
+
+Nosotros podemos realizar la suma para saber la cantidad de feromonas que tenemos en todo el camino:
+
+$$\tau_{i,j}^k=\sum_{k=1}^{m} \Delta\tau_{i,j}^k$$
+
+Algo que hay que tener muy en cuenta tambien, es la vaporizacion, ya que las feromonas no son para siempre, si bien el algoritmo tambien lo considera como un factor que puede obviarse,
+como en el de la formula que la sumatoria seria correcta, sin embargo si queremos considerar la vaporizacion, la formular cambiaria de la siguiente forma para calcular su total:
+
+$$\tau_{i,j}^k=\textcolor{red}{(1-\rho)\tau_{i,j}}+\sum_{k=1}^{m} \Delta\tau_{i,j}^k$$
+
+Como podemos ver \textit{$\rho$} es una constante que hara el calculo de la vaporizacion,
+ su maximo nivel es 1 y su minimo nivel es 0 en caso no se quiera considerar. Como se menciono
+es un valor opcional si se quiere emular correctamente el algoritmo lo mas parecido a una situacion real.
+
+
+\vspace{25mm}
+
+EJEMPLO
+
+\vspace{5mm}
+
+Tenemos un grafo completo de 4 vertices, la hormiga 1 pasa por todos los vertices una sola vez y costo total obtenido es de 14
+
+$$L_1=14 \rightarrow \Delta\tau_{i,j}^1=\frac{1}{14}$$
+
+Tenemos una segunda hormiga que va por otro camino y el costo total fue de 31
+
+$$L_2=31 \rightarrow \Delta\tau_{i,j}^2=\frac{1}{31}$$
+
+Recordemos que para ir calculando el total de feromonas dejadas por las hormigas es solo la suma. En una arista que solo paso la hormiga 1
+, el total de feromonas dejadas sera de $\frac{1}{14}$, mientras que en una arista donde pasaron ambas, sera de $\frac{1}{14}+\frac{1}{31}$
+
+En este ejemplo no estamos viendo la vaporizacion, digamos que lo colocamos al valor de \textit{$\rho$} el valor de 0.5, la sumatoria ahora seria asi:
+
+$$0.5*1+\frac{1}{14}$$
+$$0.5*1+\frac{1}{14}+\frac{1}{31}$$
+
+De esta manera podemos ir armando nuestra matriz de feronomas a la par de nuestra matriz original.
+Si bien esto es para la parte de como utilizar las feromonas, faltaria ver como es que se escoje el camino correcto.
+El calculo de la probabilidad, justamente se da dependiendo de los datos que tenemos almacenados en nuestras matrices, tanto la matriz de adjacencia
+como la de feromonas.
+La formula es la siguiente:
+
+$$P_{i,j}=\frac{(\tau_{i,j})(\eta_{i,j})}{\sum((\tau_{i,j})(\eta_{i,j}))}$$
+
+Donde:\\
+
+    \hspace{1cm}$P_{i,j}$ es la probabilidad de escoger ese camino
+
+    \hspace{1cm}$\tau_{i,j}$ el valor de la feromona de esa arista
+
+    \hspace{1cm}$\eta_{i,j}$ el valor de: $\frac{1}{L_{i,j}}$ que es 1 sobre el costo real de la arista
+
+    \vspace{5mm}
+
+Aquí nos daremos cuenta que es donde toma bastante importancia la feromona, ya que si la feromona es alta en un camino de costo alto, puede influir en tomar
+desiciones distintas a las esperadas, son situaciones donde no sucedan a menudo debido a que siempre habra mayores probabilidades en caminos de costo bajo
+llegando asi a la ruta mas optima posible y dependiendo de la cantidad de hormigas que pasen por ella dejando la feromona.
+
+Un ultimo punto a considerar es, una vez que tenemos esa probabilidad aumentando y disminuyendo, como es que la manejamos en si ya que,
+toda probabilidad va a ser utilizada para obtener un valor random, en este caso, es muy usual utilizar \textit{Roulette Wheel} como algoritmo de obtencion
+de un valor de acuerdo a probailidades, en este caso Roulette Wheel, va generando una suma cumulativa de las propiedades, siendo el mayor numero 1 y el menor,
+la menor probabilidad obtenida, a partir de ahi se genera un numero random y se analizar en cual de los intervalos de la suma es donde cae el numero random, veamos un ejemplo:
+
+Imaginemos que seguimos con nuestro grafo completo de 4 vertices, la probabilidad para escoger la arista 1 es de 76\%, la arista 2 es de 19\% y por ultimo
+la arista 3 del 5\%.
+
+La suma cumulativa quedaria de esta forma:
+
+    $$\textit{r} = Random$$
+
+    $$Intervalo 1 = {0.24 < \textit{r} \leq 1 }$$
+
+    $$Intervalo 2 = {0.05 < \textit{r} \leq 0.24 }$$
+
+    $$Intervalo 3 = {0.00 \leq \textit{r} \leq 0.05 }$$
+
+De esta manera, dependiendo el numero random que obtengamos, si cae en el intervalo 1, ira a la arista 1, y asi con los demas posibles resultados.
+
+De esta forma obtenemos el camino Hamiltoniano mas optimo segun esta heuristica.
+
+\section{Implementación}
+La implementacion de la heuristica y el algoritmo de fuerza bruta, fueron realizadas en C++ y los datos de testeo y otros
+se encuentran en el siguiente link de Github:
+ 
+- https://github.com/Alpha004/AyEDJAAR2023
+
+\section{Resultados}
+<Resultados>
+
+\section{Conclusiones}
+<Conclusiones>
+
+\section{Referencias Bibliográficas}
+\begin{thebibliography}{9}
+\bibitem{libro1}
+Blum, Christian. \textit{Ant colony optimization: Introduction and recent trends}. ELSEVIER, 2005.
+
+\bibitem{sitioweb1}
+Introduction to Ant Colony Optimization. URL: \texttt{https://www.javatpoint.com/introduction-to-ant-colony-optimization}
+
+\end{thebibliography}
+
+\section{Anexos}
+<Anexos>
+
+\end{document}
