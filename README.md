@@ -151,3 +151,14 @@ Nos pedira que ingresemos cuantos vertices queremos usar, esto generara la lista
 Para el de grafico:
 
 ```python .\generate_graphic.py```
+
+# EJERCICIO FINAL
+
+ENTREGABLES:
+Informe PDF (debe contener un enlace al repositorio)
+Diapositivas
+Video en YouTube ( 5 min )
+El problema
+Implementación del KNN
+Funcionamiento de la aplicación
+Métricas (accuracy, F1-score)
