@@ -1,7 +1,19 @@
 import math
 import sys
+import csv
+from scipy.spatial import distance
 
-DIMENSIONS = 2
+DIMENSIONS = 9
+MAX_DIST = 999999999999
+
+def read_csv(filename):
+  with open(filename, "r") as f:
+    reader = csv.reader(f)
+    next(reader, None)
+    data = []
+    for row in reader:
+      data.append(tuple(row))
+    return data
 
 class Node:
     def __init__(self, pos, left, right):
@@ -56,6 +68,28 @@ def nearest_neighbor(root, point, nivel=0):
                                best)
     return best
 
+def euclidean_distance(node1,node2):
+   tempNode = str(node2).replace("'", "").strip("()").split(",")
+   node2 = tuple(float(s) for s in tempNode)
+   return distance.euclidean(node1,node2)
+
+def find_knn(k, root, node): 
+  neighbors = []
+  if root is not None:
+    distance = euclidean_distance(node.position, root.position)
+    neighbors.append((distance, root))  
+  if root is None:
+    if node is None:
+      return []  
+  else:
+    # Vecinos más cercanos izquierda
+    left_neighbors = find_knn(k, root.left_child, node)
+    # Vecinos más cercanos derecha
+    right_neighbors = find_knn(k - len(left_neighbors), root.right_child, node)
+    neighbors.extend(left_neighbors)
+    neighbors.extend(right_neighbors)  
+  neighbors.sort(key=lambda x: x[0])
+  return neighbors[:k]
 
 
 def kdtree(points, nivel=0):
@@ -72,12 +106,17 @@ def kdtree(points, nivel=0):
 
 
 if __name__ == '__main__':
-
+    args = sys.argv[1:]    
+    filename = str(args[0]) if args else 'F:/Jesus/UNSA/Maestria/Cursos/AlgoritmosYEstructurasdeDatos/MaestriaAyEDGrupo04/Ejercicio_Final/Data/DataSet/Heart_Attack_3.csv'
     #LIST_POINTS = [(2,15),(4,8),(12,15),(9,9),(10,4),(14,2),(13,12)]
-    LIST_POINTS = [(645.48749, 502.83917),(852.56873, 677.59558),(1096.0155, 661.43311),(1494.0156, 590.72247),(510.12704, 321.01172),(545.48236, 146.25533),(63.63961, 144.23502),(358.60416, 654.36206),(222.23357, 385.66147),(222.23357, 385.66147),(1043.4875, 168.47868),(803.07129, 323.03201)]
-    result = kdtree(LIST_POINTS)
-    to_found_point = (953.58398, 382.63101)
-    found = nearest_neighbor(result, to_found_point)
-    found_distance = math.sqrt(distance_squared(to_found_point, found))
-
-    print("Encontrado: %s - distancia: %f" % (found, found_distance))
+    #LIST_POINTS = [(645.48749, 502.83917),(852.56873, 677.59558),(1096.0155, 661.43311),(1494.0156, 590.72247),(510.12704, 321.01172),(545.48236, 146.25533),(63.63961, 144.23502),(358.60416, 654.36206),(222.23357, 385.66147),(222.23357, 385.66147),(1043.4875, 168.47868),(803.07129, 323.03201)]
+    LIST_POINTS = read_csv(filename)
+    kdtreeObj = kdtree(LIST_POINTS)
+    print(kdtreeObj)
+    # to_found_point = (953.58398, 382.63101)
+    # found = nearest_neighbor(result, to_found_point)
+    # found_distance = math.sqrt(distance_squared(to_found_point, found))
+    point_to_find = Node((49.00,1.00,59.00,110.00,65.00,149.00,3.18,0.003,0.00),None,None)
+    results = find_knn(5,kdtreeObj,point_to_find)
+    print(results)
+    # print("Encontrado: %s - distancia: %f" % (found, found_distance))
