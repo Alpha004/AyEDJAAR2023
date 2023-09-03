@@ -1,10 +1,10 @@
-import math
-import numpy as np
 import sys
 import csv
 from scipy.spatial import distance
+import matplotlib.pyplot as plt
 import pandas as pd
 from sklearn.model_selection import train_test_split
+from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, recall_score, f1_score, classification_report
 
 DIMENSIONS = 8
 MAX_DIST = 999999999999
@@ -38,9 +38,12 @@ class KDTree:
         self.y_train=y_training_data
         self.points = []
         for i in range(len(self.x_train)):
-            # Arreglar el tema del 'list' object cannot be interpreted as an integer en esta linea            
-            self.points.append(np.concatenate(self.x_train[i], [self.y_train[i]]))
-        self.kdtree_build(self.points)
+            tmpobj = [(self.y_train[i])]
+            tmpobj2 = self.x_train[i].tolist()
+            # Arreglar el tema del 'list' object cannot be interpreted as an integer en esta linea 
+            tmpobj2.extend(tmpobj)           
+            self.points.append(tmpobj2)
+        self.root = self.kdtree_build(self.points)
     
     def kdtree_build(self, points, nivel=0):
         size = len(points)
@@ -49,26 +52,28 @@ class KDTree:
         axis = nivel % DIMENSIONS
         sorted_points = sorted(points, key=lambda point: point[axis])
         pos = sorted_points[size // 2]
-        self.root = Node(pos,
+        return Node(pos,
                     self.kdtree_build(sorted_points[:size // 2], nivel + 1),
                     self.kdtree_build(sorted_points[size // 2 + 1:], nivel + 1))
     
-    def euclidean_distance(self, node1,node2):
+    def euclidean_distance(self, node1, node2):
+        if len(node2) > len(node1):
+            return distance.euclidean(node1,node2[:-1])
         return distance.euclidean(node1,node2)
     
     def find_knn(self, k, root, node):
         neighbors = []
         if root is not None:
-            distance = euclidean_distance(node.position, root.position)
-            neighbors.append((root.position[:-1], distance, root))
+            distance = self.euclidean_distance(node.position, root.position)
+            neighbors.append((root.position[-1], distance, root))
         if root is None:
             if node is None:
                 return []
         else:
         # Vecinos más cercanos izquierda
-            left_neighbors = find_knn(k, root.left_child, node)
+            left_neighbors = self.find_knn(k, root.left_child, node)
             # Vecinos más cercanos derecha
-            right_neighbors = find_knn(k - len(left_neighbors), root.right_child, node)
+            right_neighbors = self.find_knn(k - len(left_neighbors), root.right_child, node)
             neighbors.extend(left_neighbors)
             neighbors.extend(right_neighbors)  
             neighbors.sort(key=lambda x: x[1])
@@ -77,7 +82,7 @@ class KDTree:
     def predict(self, k, test_set):
         predictions=[]
         for test_sample in test_set:
-            neighbors=find_knn(k, self.root, Node(test_sample,None,None))
+            neighbors=self.find_knn(k, self.root, Node(test_sample.tolist(),None,None))
             labels=[sample for sample in neighbors]
             prediction=max(labels,key=labels.count)
             predictions.append(prediction)
@@ -120,26 +125,26 @@ def nearest_neighbor(root, point, nivel=0):
         best = closer_distance(point, nearest_neighbor(other_branch, point, nivel + 1), best)
     return best
 
-def euclidean_distance(node1,node2):
-    return distance.euclidean(node1,node2)
+# def euclidean_distance(node1,node2):
+#     return distance.euclidean(node1,node2)
 
-def find_knn(k, root, node): 
-    neighbors = []
-    if root is not None:
-        distance = euclidean_distance(node.position, root.position)
-        neighbors.append((distance, root))
-    if root is None:
-        if node is None:
-            return []
-    else:
-    # Vecinos más cercanos izquierda
-        left_neighbors = find_knn(k, root.left_child, node)
-        # Vecinos más cercanos derecha
-        right_neighbors = find_knn(k - len(left_neighbors), root.right_child, node)
-        neighbors.extend(left_neighbors)
-        neighbors.extend(right_neighbors)  
-        neighbors.sort(key=lambda x: x[0])
-    return neighbors[:k]
+# def find_knn(k, root, node): 
+#     neighbors = []
+#     if root is not None:
+#         distance = euclidean_distance(node.position, root.position)
+#         neighbors.append((distance, root))
+#     if root is None:
+#         if node is None:
+#             return []
+#     else:
+#     # Vecinos más cercanos izquierda
+#         left_neighbors = find_knn(k, root.left_child, node)
+#         # Vecinos más cercanos derecha
+#         right_neighbors = find_knn(k - len(left_neighbors), root.right_child, node)
+#         neighbors.extend(left_neighbors)
+#         neighbors.extend(right_neighbors)  
+#         neighbors.sort(key=lambda x: x[0])
+#     return neighbors[:k]
 
 
 
@@ -167,19 +172,40 @@ if __name__ == '__main__':
     X = LIST_POINTS.iloc[:, :-1].values
     y = LIST_POINTS.iloc[:, -1].values.astype(int)
     
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.25)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.3)
 
     # kdtreeObj = kdtree(X)
     kdtreeObj = KDTree(MAX_NEIGHBORDS)
     kdtreeObj.fit(X_train,y_train)
 
-    print(kdtreeObj)
+    print("KDTREE BUILD SUCCESS!!")
     # to_found_point = (953.58398, 382.63101)
     # found = nearest_neighbor(result, to_found_point)
     # found_distance = math.sqrt(distance_squared(to_found_point, found))
-    point_to_find = Node((49,1,59,110,65,149,3.18,0.003,1),None,None)
-    results = kdtreeObj.find_knn(MAX_NEIGHBORDS,kdtreeObj.root,point_to_find)
+    # point_to_find = Node((49,1,59,110,65,149,3.18,0.003,1),None,None)
+    # results = kdtreeObj.find_knn(MAX_NEIGHBORDS,kdtreeObj.root,point_to_find)
+    print("STARTING THE PREDICTIONS...")
+    predictions=kdtreeObj.predict(MAX_NEIGHBORDS,X_test)    
+    labels_predictions = list(map(lambda tupla: tupla[0], predictions))
 
+    print("CLASIFICATION DATA:\n")
+    print(y_test)
 
-    print(results)
+    print('PREDICTIONS:\n')
+    print(labels_predictions)
+
+    cm = confusion_matrix(y_test, labels_predictions) #our model
+    print(cm)
+
+    print("ACCURACY: " + str(accuracy_score(y_test, labels_predictions)) + "\n\n")
+    print("PRECISION SCORE: " + str(precision_score(y_test, labels_predictions)) + "\n\n")
+    print("RECALL: " + str(recall_score(y_test, labels_predictions)) + "\n\n")
+    print("F1 : " + str(f1_score(y_test, labels_predictions)) + "\n\n")
+    print(classification_report(y_test, labels_predictions))
     # print("Encontrado: %s - distancia: %f" % (found, found_distance))
+
+    # YELLOW = 0, PURPLE = 1, BLUE = TO CLASSIFY
+    plt.scatter(X_train[:,0], X_train[:,5], c= y_train)
+    plt.scatter(X_test[0,0], X_test[0,5])
+    plt.grid()
+    plt.show()
