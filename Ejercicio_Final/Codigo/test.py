@@ -87,11 +87,11 @@ if __name__ == '__main__':
 
     cm = confusion_matrix(y_test, y_pred)
     print(cm)
-    accuracy_score(y_test, y_pred)
+    print(accuracy_score(y_test, y_pred))
 
     cm = confusion_matrix(y_test, predictions) #our model
     print(cm)
-    accuracy_score(y_test, predictions)
+    print(accuracy_score(y_test, predictions))
 
 
     X_set, y_set = sc.inverse_transform(X_test), y_test
