@@ -3,7 +3,6 @@ import csv
 from scipy.spatial import distance
 import matplotlib.pyplot as plt
 import pandas as pd
-from sklearn.neighbors import KNeighborsClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, recall_score, f1_score, classification_report
 
@@ -172,18 +171,6 @@ if __name__ == '__main__':
     print("F1 : " + str(f1_score(y_test, labels_predictions)) + "\n\n")
     print(classification_report(y_test, labels_predictions))
     # print("Encontrado: %s - distancia: %f" % (found, found_distance))
-
-    print("**********COMPARISON**********")
-    classifier = KNeighborsClassifier(n_neighbors = MAX_NEIGHBORDS, algorithm='kd_tree', metric="minkowski", p = 8)#The default metric is minkowski, and with p=2 is equivalent to the standard Euclidean metric.
-    classifier.fit(X_train, y_train)
-    y_pred = classifier.predict(X_test)
-    cm = confusion_matrix(y_test, y_pred)
-    print(cm)
-    print("ACCURACY: " + str(accuracy_score(y_test, y_pred)) + "\n\n")
-    print("PRECISION SCORE: " + str(precision_score(y_test, y_pred)) + "\n\n")
-    print("RECALL: " + str(recall_score(y_test, y_pred)) + "\n\n")
-    print("F1 : " + str(f1_score(y_test, y_pred)) + "\n\n")
-    print(classification_report(y_test, y_pred))
 
     # YELLOW = 0, PURPLE = 1, BLUE = TO CLASSIFY
     plt.scatter(X_train[:,0], X_train[:,5], c= y_train)
