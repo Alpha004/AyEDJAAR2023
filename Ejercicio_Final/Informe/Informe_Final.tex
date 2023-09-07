@@ -47,7 +47,36 @@ la glucemia (glucosa), la CK-MB (kcm) y la troponina (troponina) representan los
 de infarto de miocardio (clase), que se divide en dos categorías (negativa y positiva); la negativa se refiere a la ausencia de infarto de miocardio, mientras que la positiva se refiere a la presencia de infarto de miocardio.
 Se requiere tener un modelo que nos permita clasificar otros pacientes que puedan añadirse al registro de forma automática.
 El dataset seleccionado se denomina "Heart Disease Classification Dataset", el cual se pudo verificar que con algoritmos de las librerias de python basadas en KNN, se obtuvo un accurance de 60 - 63 porciento, siendo otros algoritmos
-mas eficaces, sin embargo para el presente proyecto se realizara una implementación propia basada en el pseudocódigo de KDtree y KNN.
+más eficaces, sin embargo para el presente proyecto se realizara una implementación propia basada en el pseudocódigo de KDtree y KNN.
+
+\section{KDTree y KNN}
+\vspace{10mm}
+
+KDTree
+\vspace{10mm}
+
+Es una estructura de datos que particiona el espacio en puntos organizados en k-dimensiones. Esta estructura de datos es muy util en aplicaciones de Machine Learning,
+sin embargo si la cantidad de dimensiones que vaya procesando el KDTree, afecta la precisión de algoritmos de busqueda bastante. Uno de los metodos mas implementados en un KDTree
+es el de Nearest Neighbord el cual encuentra el vecino mas cercano a un punto dado, y la forma de implementar este algoritmo se basa en como esta estructurado el arbol 
+y en algunos casos la distancia del punto con el particionamiento que se dio al inicio.
+\vspace{10mm}
+
+KNN
+\vspace{10mm}
+
+K-Nearest Neighbords es un metodo de clasificación muy bueno que trabaja en valores basados en un array de datos de diferentes dimensiones, ya que principalmente se centra en 
+hacer la comparativa de distancias con todos los puntos de una estructura, ordenar los resultados de menor a mayor y obtener los k vecinos mas cercanos al nodo a buscar.
+Este algoritmo puede ser implementado sin problemas con una estructura de KDTree, tomando la ventaja del ordenamiento tan parejo que tiene la estructura, nos es facil reconocer los 
+k vecinos cercanos a un nuevo nodo.
+Hay diferentes formas de medir la distancia para puntos de n-dimensiones, en este caso se utilizo la distancia euclidiana, la cual esta formada por la siguiente formula:
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{euclidiana}
+\caption{Formula de distancia Euclidiana}
+\end{figure}
+
 
 \section{Implementación}
 Para la implementacion se utilizo el lenguaje Python y la fuente de datos de Kaggle "Heart Disease Classification Dataset".
@@ -76,6 +105,12 @@ ningún tipo de ataque, y en caso contrario, se le marcara con 1.
 
 Al ejecutar la implementación, se muestra la clasificación de data correcta y las predicciones que hallo el sistema:
 
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{data2}
+\caption{Clasificación y Predicciones}
+\end{figure}
+
 La matriz de comparación quedaría de la siguiente manera:
 
 \begin{figure}[H]
@@ -100,16 +135,8 @@ A partir de la tabla podemos empezar a sacar las métricas que nos indican cuant
 \caption{Matriz de precisión de clasificación}
 \end{figure}
 
-Como se puede observar, se tiene una precisión promedio de 0.45 - 0.55, la cual está un poco alejada de la precisión que tiene la implementación actual que tiene Python en su librería
-Podemos realizar una comparativa rápida con los resultados obtenidos por el mismo algoritmo de Python, obteniendo estos resultados.
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=\textwidth]{metricas2}
-\caption{Matriz de precisión de clasificación de la librería de Python KNN}
-\end{figure}
-
-Como podemos observar, la precisión promedio es de 0.60 - 0.65 lo cual supera la precisión de la implementación desarrollada.
+Como se puede observar, se tiene una precisión promedio de 0.60 - 0.65, la cual está un poco alejada de una precisión aceptable para clasificación, incluso se podría decir que no es muy óptimo.
+Esto debido a que el algoritmo de KNN en sí no tiene la precisión debida para darnos un resultado aceptable.
 
 Podemos verificar uno de los resultados en los gráficos, como se indicó se tendría una gran cantidad de datos para el aprendizaje, por lo que se encontraran varios puntos en la gráfica.
 
@@ -120,7 +147,7 @@ Podemos verificar uno de los resultados en los gráficos, como se indicó se ten
 \end{figure}
 
 Si nos acercamos más, podemos ver que el punto a clasificar, en este caso el punto azul, tiene 3 puntos amarillos, los cuales son de estado 0 y 2 morados de estado 1,
-dando como resultado la clasificación a 0. Si revisamos los resultados mostrados en la figura 2, veremos que la predicción fue correcta.
+dando como resultado la clasificación a 0. Si revisamos los resultados mostrados en la figura 3, veremos que la predicción fue correcta.
 
 \begin{figure}[H]
 \centering

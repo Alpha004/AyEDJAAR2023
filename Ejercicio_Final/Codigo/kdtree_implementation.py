@@ -70,18 +70,18 @@ class KDTree:
             return []
         else:
         # Vecinos más cercanos izquierda
-            left_neighbors = self.find_knn(k, root.left_child, node)
+            left_neighbors = self.find_knn(self.k, root.left_child, node)
             # Vecinos más cercanos derecha
-            right_neighbors = self.find_knn(k - len(left_neighbors), root.right_child, node)
+            right_neighbors = self.find_knn(self.k - len(left_neighbors), root.right_child, node)
             neighbors.extend(left_neighbors)
             neighbors.extend(right_neighbors)  
             neighbors.sort(key=lambda x: x[1])
-        return neighbors[:k]
+        return neighbors[:self.k]
     
     def predict(self, k, test_set):
         predictions=[]
         for test_sample in test_set:
-            neighbors=self.find_knn(k, self.root, Node(test_sample.tolist(),None,None))
+            neighbors=self.find_knn(self.k, self.root, Node(test_sample.tolist(),None,None))
             labels= list(map(lambda tupla: tupla[0], neighbors))
             prediction=max(labels,key=labels.count)
             predictions.append(prediction)
